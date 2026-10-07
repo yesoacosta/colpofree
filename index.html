@@ -17,22 +17,31 @@
         .report-editor { background-color: #f9fafb; color: #1f2937; border-color: #e2e8f0; transition: border-color 0.2s ease-in-out, background-color 0.3s ease, color 0.3s ease; white-space: pre-wrap; }
         .report-editor:focus { border-color: #3b82f6; outline: none; background-color: #ffffff; }
         
-        .dark body { background-color: #121212; color: #e2e8f0; }
-        .dark #app-container, .dark .bg-white { background-color: #1f2937; }
-        .dark .patient-card { background-color: #374151; border-color: #4b5563; }
-        .dark .report-editor { background-color: #111827; color: #e2e8f0; border-color: #4b5563; }
-        .dark .report-editor:focus { border-color: #60a5fa; background-color: #1f2937;}
-        .dark .text-gray-900, .dark .text-gray-800, .dark .text-gray-700 { color: #e2e8f0; }
+        /* Ajustes de contraste para Modo Oscuro */
+        .dark body { background-color: #121212; color: #f8fafc; }
+        .dark #app-container, .dark .bg-white { background-color: #1e293b; }
+        .dark .patient-card { background-color: #334155; border-color: #475569; }
+        .dark .report-editor { background-color: #0f172a; color: #f8fafc; border-color: #475569; }
+        .dark .report-editor:focus { border-color: #60a5fa; background-color: #1e293b;}
+        
+        .dark .text-gray-900, .dark .text-gray-800, .dark .text-gray-700 { color: #f8fafc; }
         .dark .text-gray-600, .dark .text-gray-500 { color: #cbd5e1; }
-        .dark .border-gray-200 { border-color: #4b5563; }
+        .dark .border-gray-200, .dark .border-gray-300 { border-color: #475569; }
         .dark .text-blue-800 { color: #93c5fd; }
-        .dark .bg-gray-50 { background-color: #374151; }
+        .dark .bg-gray-50 { background-color: #334155; }
         .dark .file\:bg-blue-50 { background-color: #1e3a8a; }
         .dark .file\:text-blue-700 { color: #93c5fd; }
-        .dark input, .dark textarea, .dark select { background-color: #374151; border-color: #4b5563; color: #e2e8f0; }
+        
+        /* Inputs con letras blancas en modo oscuro */
+        .dark input, .dark textarea, .dark select { background-color: #334155; border-color: #475569; color: #ffffff; }
+        .dark input::placeholder, .dark textarea::placeholder { color: #9ca3af; }
+        
         .form-section-title { font-weight: 700; color: #2563eb; margin-bottom: 0.5rem; margin-top: 1rem; font-size: 1.1rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.25rem;}
-        .dark .form-section-title { color: #60a5fa; border-color: #4b5563;}
-        .checkbox-label { display: flex; align-items: center; space-x: 2px; margin-bottom: 0.25rem; font-size: 0.95rem; cursor: pointer;}
+        .dark .form-section-title { color: #60a5fa; border-color: #475569;}
+        
+        /* Contraste Checkboxes */
+        .checkbox-label { display: flex; align-items: center; space-x: 2px; margin-bottom: 0.25rem; font-size: 0.95rem; cursor: pointer; color: #1f2937;}
+        .dark .checkbox-label { color: #e2e8f0; }
         .checkbox-label input { margin-right: 0.5rem; width: 1.2rem; height: 1.2rem; }
     </style>
 </head>
@@ -44,7 +53,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.618.752-3.831m11.234 11.455a9.71 9.71 0 0 1-3.69 1.636 9.707 9.707 0 0 1-4.041 0 9.72 9.72 0 0 1-3.69-1.636M2.25 10.5h18" /></svg>
             </button>
             <h1 class="text-4xl font-extrabold text-gray-900 mt-2 dark:text-white transition-colors duration-300">ColpoVision</h1>
-            <p class="text-lg text-gray-500 mt-1 dark:text-gray-400 transition-colors duration-300">Registro Colposcópico Estructurado</p>
+            <p class="text-lg text-gray-500 mt-1 dark:text-gray-400 transition-colors duration-300">Registro Colposcópico Profesional</p>
         </div>
 
         <!-- Lista de Pacientes -->
@@ -71,35 +80,52 @@
             <h2 id="form-title" class="text-2xl font-bold text-gray-800 dark:text-white transition-colors duration-300 mb-6">Añadir Nueva Paciente</h2>
             <form id="patient-form" class="space-y-6">
                 <input type="hidden" id="patient-id">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Nombre de la Paciente</label>
-                        <input type="text" id="name" required class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                
+                <!-- Datos Personales -->
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border dark:border-gray-600">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 border-b pb-2 dark:border-gray-600">1. Datos Personales</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-200 font-semibold mb-2">Nombre de la Paciente</label>
+                            <input type="text" id="name" required class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-200 font-semibold mb-2">Edad</label>
+                            <input type="number" id="age" required class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Edad</label>
-                        <input type="number" id="age" required class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div class="mt-4">
+                        <label class="block text-gray-700 dark:text-gray-200 font-semibold mb-2">Obra Social</label>
+                        <input type="text" id="social-security" class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl">
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-gray-700 dark:text-gray-200 font-semibold mb-2">Historial Médico Relevante</label>
+                        <textarea id="medical-history" rows="2" class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl"></textarea>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Obra Social</label>
-                    <input type="text" id="social-security" class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <!-- Archivos Clínicos y Administrativos -->
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border dark:border-gray-600">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 border-b pb-2 dark:border-gray-600">2. Archivos e Imágenes</h3>
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-200 font-semibold mb-2">Foto de la Colposcopia</label>
+                        <input type="file" id="colpo-image" accept="image/*" class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
+                        <button type="button" id="camera-btn" class="mt-2 w-full bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 text-gray-800 dark:text-white font-bold py-3 px-4 rounded-xl shadow-md">📷 Abrir Cámara</button>
+                        <img id="image-preview" class="mt-4 hidden w-full max-h-64 object-contain rounded-xl border border-gray-300">
+                    </div>
+                    <div class="mt-6 border-t dark:border-gray-600 pt-4">
+                        <label class="block text-gray-700 dark:text-gray-200 font-semibold mb-2">Logo del Establecimiento / Clínica (Opcional)</label>
+                        <p class="text-xs text-gray-500 mb-2 dark:text-gray-400">Si subes un logo, aparecerá en el margen superior izquierdo del PDF.</p>
+                        <input type="file" id="logo-image" accept="image/*" class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-green-50 file:text-green-700 cursor-pointer">
+                        <img id="logo-preview" class="mt-4 hidden h-20 object-contain rounded border border-gray-300 bg-white">
+                    </div>
+                    <div class="mt-6 border-t dark:border-gray-600 pt-4">
+                        <label class="block text-gray-700 dark:text-gray-200 font-semibold mb-2">Firma y Sello (Opcional)</label>
+                        <input type="file" id="signature-image" accept="image/*" class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
+                        <img id="signature-preview" class="mt-4 hidden h-24 object-contain rounded-xl border border-gray-300 bg-white">
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Historial Médico Relevante</label>
-                    <textarea id="medical-history" rows="2" class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-                <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Imagen Colposcópica (Optimización automática)</label>
-                    <input type="file" id="colpo-image" accept="image/*" class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
-                    <button type="button" id="camera-btn" class="mt-2 w-full bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 text-gray-800 dark:text-white font-bold py-3 px-4 rounded-xl shadow-md">📷 Abrir Cámara</button>
-                    <img id="image-preview" class="mt-4 hidden w-full max-h-64 object-contain rounded-xl border border-gray-300">
-                </div>
-                <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Imagen de Firma</label>
-                    <input type="file" id="signature-image" accept="image/*" class="w-full p-3 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
-                    <img id="signature-preview" class="mt-4 hidden w-full max-h-24 object-contain rounded-xl border border-gray-300">
-                </div>
+
                 <div class="flex space-x-4">
                     <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-xl shadow-md">Guardar Datos</button>
                     <button type="button" id="cancel-form-btn" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-bold py-4 px-4 rounded-xl shadow-md">Cancelar</button>
@@ -119,7 +145,7 @@
             <div class="grid lg:grid-cols-2 gap-8">
                 <!-- Columna Izquierda: Formulario Estructurado IFCPC 2011 -->
                 <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-600 shadow-inner h-[800px] overflow-y-auto">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 border-b pb-2">Hallazgos Clínicos</h3>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 border-b pb-2 dark:border-gray-600">Hallazgos Clínicos (IFCPC)</h3>
                     
                     <div class="form-section-title">Evaluación General</div>
                     <select id="eval-visibilidad" class="w-full p-2 mb-3 rounded border dark:bg-gray-700 dark:border-gray-600 dark:text-white">
@@ -154,9 +180,19 @@
                     <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Bordes delimitados / Signo del límite"> Bordes delimitados / Signo del límite</label>
 
                     <div class="form-section-title">No específicos / Sospecha</div>
-                    <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Leucoplasia"> Leucoplasia</label>
+                    <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Leucoplasia (Queratosis)"> Leucoplasia (Queratosis)</label>
                     <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Áreas yodonegativas (Schiller +)"> Áreas yodonegativas (Schiller +)</label>
                     <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Vasos atípicos"> Vasos atípicos</label>
+
+                    <!-- SECCIÓN: Hallazgos Varios -->
+                    <div class="form-section-title">Hallazgos Varios</div>
+                    <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Condiloma"> Condiloma</label>
+                    <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Pólipo Exocervical"> Pólipo Exocervical</label>
+                    <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Pólipo Endocervical"> Pólipo Endocervical</label>
+                    <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Inflamación / Cervicitis"> Inflamación / Cervicitis</label>
+                    <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Úlcera"> Úlcera</label>
+                    <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Atrofia"> Atrofia</label>
+                    <label class="checkbox-label"><input type="checkbox" class="clin-finding" value="Zona de transformación congénita"> Zona de transformación congénita</label>
 
                     <div class="form-section-title">Diagnóstico Colposcópico</div>
                     <select id="eval-diag" class="w-full p-2 mb-3 rounded border dark:bg-gray-700 dark:border-gray-600 dark:text-white">
@@ -177,12 +213,27 @@
                     </button>
                 </div>
 
-                <!-- Columna Derecha: Previsualización de Imagen y Texto Final -->
+                <!-- Columna Derecha: Imágenes, Colpograma y Texto Final -->
                 <div class="space-y-4">
-                    <img id="report-image" class="w-1/2 mx-auto h-auto rounded-xl shadow-lg border border-gray-300 dark:border-gray-600 object-cover">
                     
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 border-b pb-1">Texto Final del Informe (Editable)</h3>
-                    <div id="report-editor" contenteditable="true" class="report-editor h-[450px] overflow-y-auto p-4 rounded-xl border-2" data-placeholder="Usa el formulario de la izquierda y haz clic en 'Generar Texto' o escribe directamente aquí..."></div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <!-- Foto Real -->
+                        <div class="flex flex-col items-center">
+                            <h3 class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-2">Imagen Real</h3>
+                            <img id="report-image" class="w-full h-40 object-cover rounded-xl shadow border border-gray-300 dark:border-gray-600">
+                        </div>
+                        
+                        <!-- Colpograma Digital -->
+                        <div class="flex flex-col items-center bg-white rounded-xl shadow border border-gray-300 p-2 relative">
+                            <h3 class="text-sm font-bold text-gray-800 mb-1">Colpograma Digital</h3>
+                            <p class="text-[10px] text-gray-500 mb-1 text-center">Dibuja con el dedo o ratón</p>
+                            <canvas id="colpogram-canvas" width="160" height="160" class="border border-gray-300 bg-white cursor-crosshair touch-none rounded"></canvas>
+                            <button id="clear-colpogram-btn" class="mt-2 text-xs font-semibold text-red-500 hover:text-red-700">Limpiar Esquema</button>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 border-b pb-1 mt-4 dark:border-gray-600">Texto Final del Informe (Editable)</h3>
+                    <div id="report-editor" contenteditable="true" class="report-editor h-[300px] overflow-y-auto p-4 rounded-xl border-2" data-placeholder="Usa el formulario de la izquierda y haz clic en 'Generar Texto' o escribe directamente aquí..."></div>
                 </div>
             </div>
             
@@ -237,6 +288,8 @@
             var alertOkBtn = document.getElementById('alert-ok-btn');
             var imageInput = document.getElementById('colpo-image');
             var imagePreview = document.getElementById('image-preview');
+            var logoImageInput = document.getElementById('logo-image');
+            var logoPreview = document.getElementById('logo-preview');
             var signatureImageInput = document.getElementById('signature-image');
             var signaturePreview = document.getElementById('signature-preview');
             var reportEditor = document.getElementById('report-editor');
@@ -250,25 +303,73 @@
             var darkModeToggle = document.getElementById('dark-mode-toggle');
             var generateTextBtn = document.getElementById('generate-text-btn');
 
+            // Lógica del Colpograma
+            var canvasColpo = document.getElementById('colpogram-canvas');
+            var ctxColpo = canvasColpo.getContext('2d');
+            var drawingColpo = false;
+            var clearColpogramBtn = document.getElementById('clear-colpogram-btn');
+
+            function drawBaseColpogram() {
+                ctxColpo.fillStyle = '#ffffff';
+                ctxColpo.fillRect(0, 0, canvasColpo.width, canvasColpo.height);
+                ctxColpo.beginPath();
+                ctxColpo.arc(80, 80, 70, 0, 2 * Math.PI); 
+                ctxColpo.strokeStyle = '#333333';
+                ctxColpo.lineWidth = 1.5;
+                ctxColpo.stroke();
+                
+                ctxColpo.beginPath();
+                ctxColpo.moveTo(80, 10); ctxColpo.lineTo(80, 150);
+                ctxColpo.moveTo(10, 80); ctxColpo.lineTo(150, 80);
+                ctxColpo.stroke();
+                
+                ctxColpo.beginPath();
+                ctxColpo.ellipse(80, 80, 12, 4, 0, 0, 2 * Math.PI);
+                ctxColpo.stroke();
+            }
+
+            function loadColpogram(base64) {
+                if(base64) {
+                    var img = new Image();
+                    img.onload = function() {
+                        ctxColpo.clearRect(0,0, canvasColpo.width, canvasColpo.height);
+                        ctxColpo.drawImage(img, 0, 0);
+                    };
+                    img.src = "data:image/jpeg;base64," + base64;
+                } else { drawBaseColpogram(); }
+            }
+
+            function getColpoPos(e) {
+                var rect = canvasColpo.getBoundingClientRect();
+                var clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                var clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                return { x: clientX - rect.left, y: clientY - rect.top };
+            }
+
+            canvasColpo.addEventListener('mousedown', e => { drawingColpo = true; var pos = getColpoPos(e); ctxColpo.beginPath(); ctxColpo.moveTo(pos.x, pos.y); });
+            canvasColpo.addEventListener('mousemove', e => { if(drawingColpo) { var pos = getColpoPos(e); ctxColpo.lineTo(pos.x, pos.y); ctxColpo.strokeStyle='red'; ctxColpo.lineWidth=3; ctxColpo.stroke(); }});
+            canvasColpo.addEventListener('mouseup', () => drawingColpo = false);
+            canvasColpo.addEventListener('mouseout', () => drawingColpo = false);
+            
+            canvasColpo.addEventListener('touchstart', e => { drawingColpo = true; var pos = getColpoPos(e); ctxColpo.beginPath(); ctxColpo.moveTo(pos.x, pos.y); e.preventDefault();}, {passive: false});
+            canvasColpo.addEventListener('touchmove', e => { if(drawingColpo) { var pos = getColpoPos(e); ctxColpo.lineTo(pos.x, pos.y); ctxColpo.strokeStyle='red'; ctxColpo.lineWidth=3; ctxColpo.stroke(); e.preventDefault();} }, {passive: false});
+            canvasColpo.addEventListener('touchend', () => drawingColpo = false);
+
+            clearColpogramBtn.addEventListener('click', drawBaseColpogram);
+
             var stream;
             var patients = [];
             var currentPatientId = null;
             var currentImageBase64 = null;
+            var currentLogoBase64 = null;
             var currentSignatureBase64 = null;
 
-            var generateId = function() {
-                return new Date().getTime().toString() + Math.random().toString(16).substring(2);
-            };
+            var generateId = function() { return new Date().getTime().toString() + Math.random().toString(16).substring(2); };
 
-            function savePatients() {
-                localStorage.setItem('colpovision-patients', JSON.stringify(patients));
-            }
-
+            function savePatients() { localStorage.setItem('colpovision-patients', JSON.stringify(patients)); }
             function loadPatients() {
                 var storedPatients = localStorage.getItem('colpovision-patients'); 
-                if (storedPatients) {
-                    try { patients = JSON.parse(storedPatients); } catch(e) { patients = []; }
-                }
+                if (storedPatients) { try { patients = JSON.parse(storedPatients); } catch(e) { patients = []; } }
             }
             
             darkModeToggle.addEventListener('click', () => {
@@ -277,31 +378,22 @@
             });
             if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
 
-            function showModal(title, message) {
-                alertTitle.textContent = title;
-                alertMessage.textContent = message;
-                alertModal.classList.remove('hidden'); alertModal.classList.add('flex');
-            }
+            function showModal(title, message) { alertTitle.textContent = title; alertMessage.textContent = message; alertModal.classList.remove('hidden'); alertModal.classList.add('flex'); }
             alertOkBtn.addEventListener('click', () => { alertModal.classList.add('hidden'); alertModal.classList.remove('flex'); });
 
-            function showScreen(screen) {
-                Object.values(screens).forEach(s => s.classList.add('hidden'));
-                screen.classList.remove('hidden');
-            }
+            function showScreen(screen) { Object.values(screens).forEach(s => s.classList.add('hidden')); screen.classList.remove('hidden'); }
 
             function renderPatientList(filterText = '') {
                 patientListEl.innerHTML = '';
                 var filteredPatients = patients.filter(p => p.name.toLowerCase().includes(filterText.toLowerCase()));
-                if (filteredPatients.length === 0) {
-                     patientListEl.innerHTML = `<p class="text-center text-gray-500 italic md:col-span-3">No hay pacientes coincidentes.</p>`;
-                }
+                if (filteredPatients.length === 0) { patientListEl.innerHTML = `<p class="text-center text-gray-500 italic md:col-span-3 dark:text-gray-400">No hay pacientes coincidentes.</p>`; }
                 filteredPatients.forEach(function(patient) {
                     var card = document.createElement('div');
                     card.className = 'patient-card p-6 rounded-xl shadow border dark:border-gray-600 flex flex-col justify-between';
                     card.innerHTML = `
                         <div>
                             <p class="font-bold text-lg text-blue-800 dark:text-blue-300">${patient.name}</p>
-                            <p class="text-sm text-gray-500 mt-1">Edad: ${patient.age} años</p>
+                            <p class="text-sm text-gray-500 mt-1 dark:text-gray-400">Edad: ${patient.age} años</p>
                         </div>
                         <div class="flex space-x-2 mt-4 self-end">
                             <button class="view-btn text-blue-600 p-2 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900" data-id="${patient.id}">👁️ Ver/Editar</button>
@@ -314,187 +406,136 @@
             patientSearch.addEventListener('input', (e) => renderPatientList(e.target.value));
 
             addPatientBtn.addEventListener('click', () => {
-                patientForm.reset();
-                document.getElementById('patient-id').value = '';
-                document.getElementById('form-title').textContent = 'Añadir Nueva Paciente';
+                patientForm.reset(); document.getElementById('patient-id').value = ''; document.getElementById('form-title').textContent = 'Añadir Nueva Paciente';
                 imagePreview.src = ''; imagePreview.classList.add('hidden');
+                logoPreview.src = ''; logoPreview.classList.add('hidden');
                 signaturePreview.src = ''; signaturePreview.classList.add('hidden');
                 document.getElementById('analyze-btn').parentElement.classList.add('hidden');
+                currentImageBase64 = null; currentLogoBase64 = null; currentSignatureBase64 = null;
                 showScreen(screens.form);
             });
             cancelFormBtn.addEventListener('click', () => showScreen(screens.list));
 
-            // Botón de Backup
             backupBtn.addEventListener('click', () => {
-                if (patients.length === 0) {
-                    showModal('Aviso', 'No hay pacientes para respaldar aún.');
-                    return;
-                }
+                if (patients.length === 0) { showModal('Aviso', 'No hay pacientes para respaldar aún.'); return; }
                 var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(patients));
-                var downloadAnchorNode = document.createElement('a');
-                downloadAnchorNode.setAttribute("href", dataStr);
+                var downloadAnchorNode = document.createElement('a'); downloadAnchorNode.setAttribute("href", dataStr);
                 downloadAnchorNode.setAttribute("download", "Respaldo_ColpoVision_" + new Date().toISOString().split('T')[0] + ".json");
-                document.body.appendChild(downloadAnchorNode);
-                downloadAnchorNode.click();
-                downloadAnchorNode.remove();
+                document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove();
             });
 
-            // COMPRESOR DE IMÁGENES
-            function compressImage(file, callback) {
+            function compressImage(file, callback, maxSize = 1200) {
                 var reader = new FileReader();
                 reader.onload = function(event) {
                     var img = new Image();
                     img.onload = function() {
                         var canvas = document.createElement('canvas');
-                        var MAX_WIDTH = 1200; 
-                        var MAX_HEIGHT = 1200;
                         var width = img.width; var height = img.height;
-                        if (width > height) {
-                            if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                        } else {
-                            if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                        }
+                        if (width > height) { if (width > maxSize) { height *= maxSize / width; width = maxSize; } } 
+                        else { if (height > maxSize) { width *= maxSize / height; height = maxSize; } }
                         canvas.width = width; canvas.height = height;
-                        var ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        callback(canvas.toDataURL('image/jpeg', 0.8));
+                        var ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
+                        var format = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                        callback(canvas.toDataURL(format, 0.8));
                     }
                     img.src = event.target.result;
                 }
                 reader.readAsDataURL(file);
             }
 
-            imageInput.addEventListener('change', (event) => {
-                var file = event.target.files[0];
-                if (file) {
-                    compressImage(file, function(dataUrl) {
-                        imagePreview.src = dataUrl;
-                        imagePreview.classList.remove('hidden');
-                        currentImageBase64 = dataUrl.split(',')[1];
-                        document.getElementById('analyze-btn').parentElement.classList.remove('hidden');
-                    });
-                }
+            imageInput.addEventListener('change', (e) => {
+                if (e.target.files[0]) compressImage(e.target.files[0], (dataUrl) => {
+                    imagePreview.src = dataUrl; imagePreview.classList.remove('hidden');
+                    currentImageBase64 = dataUrl.split(',')[1]; document.getElementById('analyze-btn').parentElement.classList.remove('hidden');
+                });
             });
 
-            signatureImageInput.addEventListener('change', (event) => {
-                var file = event.target.files[0];
-                if (file) {
-                    compressImage(file, function(dataUrl) {
-                        signaturePreview.src = dataUrl;
-                        signaturePreview.classList.remove('hidden');
-                        currentSignatureBase64 = dataUrl.split(',')[1];
-                    });
-                }
+            logoImageInput.addEventListener('change', (e) => {
+                if (e.target.files[0]) compressImage(e.target.files[0], (dataUrl) => {
+                    logoPreview.src = dataUrl; logoPreview.classList.remove('hidden');
+                    currentLogoBase64 = dataUrl.split(',')[1];
+                }, 500); 
             });
 
-            // Cámara
+            signatureImageInput.addEventListener('change', (e) => {
+                if (e.target.files[0]) compressImage(e.target.files[0], (dataUrl) => {
+                    signaturePreview.src = dataUrl; signaturePreview.classList.remove('hidden');
+                    currentSignatureBase64 = dataUrl.split(',')[1];
+                }, 500);
+            });
+
             cameraBtn.addEventListener('click', async () => {
-                try {
-                    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-                    videoStream.srcObject = stream;
-                    cameraModal.classList.remove('hidden'); cameraModal.classList.add('flex');
-                } catch (err) {
-                    showModal('Error', 'No se pudo acceder a la cámara.');
-                }
+                try { stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }); videoStream.srcObject = stream; cameraModal.classList.remove('hidden'); cameraModal.classList.add('flex'); } 
+                catch (err) { showModal('Error', 'No se pudo acceder a la cámara.'); }
             });
             captureBtn.addEventListener('click', () => {
                 canvasCapture.width = videoStream.videoWidth; canvasCapture.height = videoStream.videoHeight;
                 canvasCapture.getContext('2d').drawImage(videoStream, 0, 0);
                 var dataUrl = canvasCapture.toDataURL('image/jpeg', 0.8);
                 imagePreview.src = dataUrl; imagePreview.classList.remove('hidden');
-                currentImageBase64 = dataUrl.split(',')[1];
-                document.getElementById('analyze-btn').parentElement.classList.remove('hidden');
+                currentImageBase64 = dataUrl.split(',')[1]; document.getElementById('analyze-btn').parentElement.classList.remove('hidden');
                 closeCameraBtn.click();
             });
-            closeCameraBtn.addEventListener('click', () => {
-                if (stream) stream.getTracks().forEach(track => track.stop());
-                cameraModal.classList.add('hidden'); cameraModal.classList.remove('flex');
-            });
+            closeCameraBtn.addEventListener('click', () => { if (stream) stream.getTracks().forEach(track => track.stop()); cameraModal.classList.add('hidden'); cameraModal.classList.remove('flex'); });
 
-            // Guardar Paciente
             patientForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 var id = document.getElementById('patient-id').value || generateId();
                 var existing = patients.find(p => p.id === id) || {};
                 var newPatient = { 
-                    id: id, 
-                    name: document.getElementById('name').value, 
-                    age: document.getElementById('age').value, 
-                    socialSecurity: document.getElementById('social-security').value, 
-                    medicalHistory: document.getElementById('medical-history').value, 
+                    id: id, name: document.getElementById('name').value, age: document.getElementById('age').value, 
+                    socialSecurity: document.getElementById('social-security').value, medicalHistory: document.getElementById('medical-history').value, 
                     imageBase64: currentImageBase64 || existing.imageBase64, 
-                    reportText: existing.reportText || "", 
-                    signatureImageBase64: currentSignatureBase64 || existing.signatureImageBase64 
+                    logoBase64: currentLogoBase64 || existing.logoBase64,
+                    signatureImageBase64: currentSignatureBase64 || existing.signatureImageBase64,
+                    reportText: existing.reportText || "",
+                    colpogramBase64: existing.colpogramBase64 || null
                 };
                 var idx = patients.findIndex(p => p.id === id);
                 if (idx > -1) patients[idx] = newPatient; else patients.push(newPatient);
                 savePatients();
-                currentImageBase64 = null; currentSignatureBase64 = null;
+                currentImageBase64 = null; currentLogoBase64 = null; currentSignatureBase64 = null;
                 showScreen(screens.list); renderPatientList();
             });
 
-            // Botones de Lista
             patientListEl.addEventListener('click', (e) => {
-                var btn = e.target.closest('button');
-                if (!btn) return;
+                var btn = e.target.closest('button'); if (!btn) return;
                 var id = btn.dataset.id;
                 if (btn.classList.contains('delete-btn') && confirm('¿Eliminar paciente?')) {
-                    patients = patients.filter(p => p.id !== id);
-                    savePatients(); renderPatientList();
+                    patients = patients.filter(p => p.id !== id); savePatients(); renderPatientList();
                 } else if (btn.classList.contains('view-btn')) {
-                    var patient = patients.find(p => p.id === id);
-                    currentPatientId = id;
-                    document.getElementById('patient-id').value = patient.id;
-                    document.getElementById('name').value = patient.name;
-                    document.getElementById('age').value = patient.age;
-                    document.getElementById('social-security').value = patient.socialSecurity;
+                    var patient = patients.find(p => p.id === id); currentPatientId = id;
+                    document.getElementById('patient-id').value = patient.id; document.getElementById('name').value = patient.name;
+                    document.getElementById('age').value = patient.age; document.getElementById('social-security').value = patient.socialSecurity;
                     document.getElementById('medical-history').value = patient.medicalHistory;
                     
-                    if (patient.imageBase64) {
-                        imagePreview.src = `data:image/jpeg;base64,${patient.imageBase64}`;
-                        imagePreview.classList.remove('hidden');
-                        document.getElementById('analyze-btn').parentElement.classList.remove('hidden');
-                    } else {
-                        imagePreview.classList.add('hidden');
-                        document.getElementById('analyze-btn').parentElement.classList.add('hidden');
-                    }
-                    if (patient.signatureImageBase64) {
-                        signaturePreview.src = `data:image/jpeg;base64,${patient.signatureImageBase64}`;
-                        signaturePreview.classList.remove('hidden');
-                    } else {
-                        signaturePreview.classList.add('hidden');
-                    }
+                    if (patient.imageBase64) { imagePreview.src = `data:image/jpeg;base64,${patient.imageBase64}`; imagePreview.classList.remove('hidden'); document.getElementById('analyze-btn').parentElement.classList.remove('hidden'); } else { imagePreview.classList.add('hidden'); document.getElementById('analyze-btn').parentElement.classList.add('hidden'); }
+                    if (patient.logoBase64) { logoPreview.src = `data:image/png;base64,${patient.logoBase64}`; logoPreview.classList.remove('hidden'); } else { logoPreview.classList.add('hidden'); }
+                    if (patient.signatureImageBase64) { signaturePreview.src = `data:image/jpeg;base64,${patient.signatureImageBase64}`; signaturePreview.classList.remove('hidden'); } else { signaturePreview.classList.add('hidden'); }
                     
                     document.getElementById('form-title').textContent = 'Editar Paciente';
                     
                     if (patient.reportText) {
                         reportEditor.innerText = patient.reportText;
                         document.getElementById('report-image').src = `data:image/jpeg;base64,${patient.imageBase64}`;
+                        loadColpogram(patient.colpogramBase64);
                         showScreen(screens.report);
-                    } else {
-                        showScreen(screens.form);
-                    }
+                    } else { showScreen(screens.form); }
                 }
             });
 
-            // Lógica de Generación de Texto Estructurado IFCPC
             generateTextBtn.addEventListener('click', () => {
                 var visibilidad = document.getElementById('eval-visibilidad').value;
                 var zt = document.getElementById('eval-zt').value;
                 var diag = document.getElementById('eval-diag').value;
                 
-                var hallazgos = [];
-                document.querySelectorAll('.clin-finding:checked').forEach(cb => hallazgos.push(cb.value));
+                var hallazgos = []; document.querySelectorAll('.clin-finding:checked').forEach(cb => hallazgos.push(cb.value));
 
                 var text = "EVALUACIÓN GENERAL:\n";
                 if(visibilidad) text += `- Unión Escamocolumnar (UEC): ${visibilidad}\n`;
                 if(zt) text += `- Zona de Transformación: ${zt}\n`;
                 text += "\nOBSERVACIONES Y HALLAZGOS COLPOSCÓPICOS:\n";
-                if (hallazgos.length > 0) {
-                    hallazgos.forEach(h => text += `- ${h}\n`);
-                } else {
-                    text += "- Sin hallazgos específicos seleccionados.\n";
-                }
+                if (hallazgos.length > 0) { hallazgos.forEach(h => text += `- ${h}\n`); } else { text += "- Sin hallazgos específicos seleccionados.\n"; }
                 text += "\nIMPRESIÓN DIAGNÓSTICA:\n";
                 text += `- ${diag || 'Pendiente'}\n`;
                 
@@ -509,80 +550,94 @@
                 
                 if (!patient.reportText) {
                     document.querySelectorAll('.clin-finding').forEach(cb => cb.checked = false);
-                    document.getElementById('eval-visibilidad').value = "";
-                    document.getElementById('eval-zt').value = "";
-                    document.getElementById('eval-diag').value = "";
-                    reportEditor.innerText = "Utilice el formulario de la izquierda para redactar el informe.";
-                } else {
-                    reportEditor.innerText = patient.reportText;
-                }
+                    document.getElementById('eval-visibilidad').value = ""; document.getElementById('eval-zt').value = ""; document.getElementById('eval-diag').value = "";
+                    reportEditor.innerText = "Utilice el formulario para redactar el informe.";
+                } else { reportEditor.innerText = patient.reportText; }
                 
                 document.getElementById('report-image').src = `data:image/jpeg;base64,${img}`;
+                loadColpogram(patient.colpogramBase64);
                 showScreen(screens.report);
             });
             
             backToListBtn.addEventListener('click', () => {
                 var patient = patients.find(p => p.id === currentPatientId);
-                if (patient) { patient.reportText = reportEditor.innerText; savePatients(); }
+                if (patient) { 
+                    patient.reportText = reportEditor.innerText; 
+                    patient.colpogramBase64 = canvasColpo.toDataURL('image/jpeg', 1.0).split(',')[1];
+                    savePatients(); 
+                }
                 showScreen(screens.list);
             }); 
             
-            // Generador PDF - Actualizado con Matrículas y Ciudad
+            // Generador PDF - Arreglo del corte de imágenes
             exportPdfBtn.addEventListener('click', () => {
                 var jsPDF = window.jspdf.jsPDF;
                 var patient = patients.find(p => p.id === currentPatientId);
-                patient.reportText = reportEditor.innerText; savePatients();
+                
+                patient.reportText = reportEditor.innerText; 
+                patient.colpogramBase64 = canvasColpo.toDataURL('image/jpeg', 1.0).split(',')[1];
+                savePatients();
                 
                 var doc = new jsPDF();
                 var pageWidth = doc.internal.pageSize.getWidth();
-                var margin = 20; var y = 20;
+                var margin = 20; var currentY = 20;
                 
-                doc.setFont('Helvetica-Bold'); doc.setFontSize(22); doc.setTextColor(30, 41, 59);
-                doc.text('Dr. Yesid Acosta Peinado', pageWidth / 2, y, { align: 'center' }); y += 8;
-
-                doc.setFont('Helvetica'); doc.setFontSize(11); doc.setTextColor(100, 116, 139);
-                doc.text('Ginecología y Colposcopia | M.P: 33210 - M.E: 16665', pageWidth / 2, y, { align: 'center' }); y += 6;
-                doc.text('San Francisco, Córdoba', pageWidth / 2, y, { align: 'center' }); y += 12;
-
-                doc.setFont('Helvetica-Bold'); doc.setFontSize(18); doc.setTextColor(30, 41, 59);
-                doc.text('INFORME COLPOSCÓPICO', pageWidth / 2, y, { align: 'center' }); y += 12;
-                
-                doc.setDrawColor(226, 232, 240); doc.line(margin, y, pageWidth - margin, y); y += 10;
-                
-                var currentYForHeader = y;
-                doc.setFont('Helvetica-Bold'); doc.setFontSize(14); doc.setTextColor(51, 65, 85);
-                doc.text('Datos de la Paciente', margin, currentYForHeader); currentYForHeader += 8;
-                
-                doc.setFont('Helvetica'); doc.setFontSize(12); doc.setTextColor(75, 85, 99);
-                doc.text(`Nombre: ${patient.name}`, margin, currentYForHeader); currentYForHeader += 6;
-                doc.text(`Edad: ${patient.age} años`, margin, currentYForHeader); currentYForHeader += 6;
-                doc.text(`Obra Social: ${patient.socialSecurity}`, margin, currentYForHeader); currentYForHeader += 6;
-                
-                var histLines = doc.splitTextToSize(`Historial: ${patient.medicalHistory || 'N/A'}`, pageWidth/2 - margin);
-                doc.text(histLines, margin, currentYForHeader);
-                currentYForHeader += (histLines.length * 6);
-
-                var imageColpoWidth = 60;
-                if (patient.imageBase64) {
-                    var imgData = `data:image/jpeg;base64,${patient.imageBase64}`;
-                    var imageColpoHeight = imageColpoWidth * 0.75; 
-                    doc.addImage(imgData, 'JPEG', pageWidth - margin - imageColpoWidth, y, imageColpoWidth, imageColpoHeight);
+                if (patient.logoBase64) {
+                    try { doc.addImage(`data:image/png;base64,${patient.logoBase64}`, 'PNG', margin, currentY - 5, 30, 30, undefined, 'FAST'); } 
+                    catch(e) { doc.addImage(`data:image/jpeg;base64,${patient.logoBase64}`, 'JPEG', margin, currentY - 5, 30, 30, undefined, 'FAST'); }
                 }
                 
-                y = Math.max(currentYForHeader, y + (imageColpoWidth*0.75)) + 15;
+                doc.setFont('Helvetica-Bold'); doc.setFontSize(22); doc.setTextColor(30, 41, 59);
+                doc.text('Dr. Yesid Acosta Peinado', pageWidth / 2, currentY, { align: 'center' }); currentY += 8;
+
+                doc.setFont('Helvetica'); doc.setFontSize(11); doc.setTextColor(100, 116, 139);
+                doc.text('Ginecología y Colposcopia | M.P: 33210 - M.E: 16665', pageWidth / 2, currentY, { align: 'center' }); currentY += 6;
+                doc.text('San Francisco, Córdoba', pageWidth / 2, currentY, { align: 'center' }); currentY += 12;
+
+                doc.setFont('Helvetica-Bold'); doc.setFontSize(18); doc.setTextColor(30, 41, 59);
+                doc.text('INFORME COLPOSCÓPICO', pageWidth / 2, currentY, { align: 'center' }); currentY += 10;
+                
+                doc.setDrawColor(226, 232, 240); doc.line(margin, currentY, pageWidth - margin, currentY); currentY += 10;
+                
+                var dataStartY = currentY;
+                doc.setFont('Helvetica-Bold'); doc.setFontSize(14); doc.setTextColor(51, 65, 85);
+                doc.text('Datos de la Paciente', margin, currentY); currentY += 8;
+                
+                doc.setFont('Helvetica'); doc.setFontSize(12); doc.setTextColor(75, 85, 99);
+                doc.text(`Nombre: ${patient.name}`, margin, currentY); currentY += 6;
+                doc.text(`Edad: ${patient.age} años`, margin, currentY); currentY += 6;
+                doc.text(`Obra Social: ${patient.socialSecurity}`, margin, currentY); currentY += 6;
+                
+                var histLines = doc.splitTextToSize(`Historial: ${patient.medicalHistory || 'N/A'}`, (pageWidth/2) - margin);
+                doc.text(histLines, margin, currentY);
+
+                // CORRECCIÓN MATEMÁTICA DEL CORTE DE IMÁGENES
+                var photoColpoWidth = 55; 
+                var photoColpoHeight = photoColpoWidth * 0.75; 
+                var esquemaWidth = photoColpoHeight; 
+                
+                // Calculamos las posiciones ancladas al margen derecho (ancho total 210mm - margen 20mm = 190mm)
+                var esquemaX = pageWidth - margin - esquemaWidth; 
+                var photoX = esquemaX - 5 - photoColpoWidth; 
+                var photosY = dataStartY; 
+                
+                if (patient.imageBase64) {
+                    doc.addImage(`data:image/jpeg;base64,${patient.imageBase64}`, 'JPEG', photoX, photosY, photoColpoWidth, photoColpoHeight);
+                }
+                if (patient.colpogramBase64) {
+                    doc.addImage(`data:image/jpeg;base64,${patient.colpogramBase64}`, 'JPEG', esquemaX, photosY, esquemaWidth, esquemaWidth);
+                }
+                
+                currentY = Math.max(currentY + (histLines.length * 6), photosY + photoColpoHeight) + 15;
                 
                 doc.setFont('Helvetica'); doc.setFontSize(12); doc.setTextColor(20, 20, 20);
                 var reportLines = doc.splitTextToSize(patient.reportText, pageWidth - 2 * margin);
                 reportLines.forEach(line => {
-                    if (y > doc.internal.pageSize.height - 40) { doc.addPage(); y = 20; }
+                    if (currentY > doc.internal.pageSize.height - 40) { doc.addPage(); currentY = 20; }
                     if (line.endsWith(':') || line.toUpperCase() === line) {
-                        doc.setFont('Helvetica-Bold');
-                        y += 4;
-                    } else {
-                        doc.setFont('Helvetica');
-                    }
-                    doc.text(line, margin, y);
-                    y += 6;
+                        doc.setFont('Helvetica-Bold'); currentY += 4;
+                    } else { doc.setFont('Helvetica'); }
+                    doc.text(line, margin, currentY); currentY += 6;
                 });
                 
                 var footerY = doc.internal.pageSize.getHeight() - 40;
@@ -596,15 +651,12 @@
                 }
                 doc.text('Firma y Sello del Médico', pageWidth - margin - 25, footerY + 5, { align: 'center' });
                 
-                doc.save(`Colposcopia_${patient.name}.pdf`);
+                doc.save(`Colposcopia_${patient.name.replace(/ /g, '_')}.pdf`);
             });
             
-            // NUEVO: Registro del Service Worker para Modo Offline e Instalación
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('/sw.js')
-                        .then(reg => console.log('Modo Offline Activado exitosamente.'))
-                        .catch(err => console.error('Error al activar modo offline:', err));
+                    navigator.serviceWorker.register('/sw.js').catch(err => console.error('Error SW:', err));
                 });
             }
 
