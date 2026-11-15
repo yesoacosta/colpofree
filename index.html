@@ -404,7 +404,8 @@
                 canvasCapture.width = videoStream.videoWidth; canvasCapture.height = videoStream.videoHeight;
                 canvasCapture.getContext('2d').drawImage(videoStream, 0, 0);
                 var dataUrl = canvasCapture.toDataURL('image/jpeg', 0.8);
-                imagePreview.src = dataUrl; imagePreview.classList.remove('hidden');
+                imagePreview.src = dataUrl; imagePreview.classList.add('hidden'); // Fix variable reference
+                imagePreview.classList.remove('hidden');
                 currentImageBase64 = dataUrl.split(',')[1]; document.getElementById('analyze-btn').parentElement.classList.remove('hidden');
                 closeCameraBtn.click();
             });
@@ -497,7 +498,7 @@
                 showScreen(screens.list);
             }); 
             
-            // Generador PDF - Con la foto centrada/alineada y sin el colpograma
+            // Generador PDF - Proporciones reales de la foto corregidas automáticamente
             exportPdfBtn.addEventListener('click', () => {
                 var jsPDF = window.jspdf.jsPDF;
                 var patient = patients.find(p => p.id === currentPatientId);
@@ -538,17 +539,21 @@
                 var histLines = doc.splitTextToSize(`Historial: ${patient.medicalHistory || 'N/A'}`, (pageWidth/2) - margin);
                 doc.text(histLines, margin, currentY);
 
-                // FOTO REAL ÚNICA Y BIEN PROPORCIONADA A LA DERECHA
-                var photoWidth = 65; 
-                var photoHeight = photoWidth * 0.75; 
-                var photoX = pageWidth - margin - photoWidth; 
-                var photosY = dataStartY; 
-                
+                // CÁLCULO PROPORCIONAL EXACTO PARA QUE LA FOTO NUNCA SE DEFORME
                 if (patient.imageBase64) {
-                    doc.addImage(`data:image/jpeg;base64,${patient.imageBase64}`, 'JPEG', photoX, photosY, photoWidth, photoHeight);
+                    var imgData = "data:image/jpeg;base64," + patient.imageBase64;
+                    var imgProps = doc.getImageProperties(imgData);
+                    var imgWidth = 65; // Ancho fijo en milímetros para el PDF
+                    var imgHeight = (imgProps.height * imgWidth) / imgProps.width; // Altura calculada proporcionalmente
+                    
+                    var photoX = pageWidth - margin - imgWidth; 
+                    var photosY = dataStartY; 
+                    
+                    doc.addImage(imgData, 'JPEG', photoX, photosY, imgWidth, imgHeight);
+                    currentY = Math.max(currentY + (histLines.length * 6), photosY + imgHeight) + 15;
+                } else {
+                    currentY = currentY + (histLines.length * 6) + 15;
                 }
-                
-                currentY = Math.max(currentY + (histLines.length * 6), photosY + photoHeight) + 15;
                 
                 doc.setFont('Helvetica'); doc.setFontSize(12); doc.setTextColor(20, 20, 20);
                 var reportLines = doc.splitTextToSize(patient.reportText, pageWidth - 2 * margin);
