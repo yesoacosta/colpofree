@@ -32,14 +32,12 @@
         .dark .file\:bg-blue-50 { background-color: #1e3a8a; }
         .dark .file\:text-blue-700 { color: #93c5fd; }
         
-        /* Inputs con letras blancas en modo oscuro */
         .dark input, .dark textarea, .dark select { background-color: #334155; border-color: #475569; color: #ffffff; }
         .dark input::placeholder, .dark textarea::placeholder { color: #9ca3af; }
         
         .form-section-title { font-weight: 700; color: #2563eb; margin-bottom: 0.5rem; margin-top: 1rem; font-size: 1.1rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.25rem;}
         .dark .form-section-title { color: #60a5fa; border-color: #475569;}
         
-        /* Contraste Checkboxes */
         .checkbox-label { display: flex; align-items: center; space-x: 2px; margin-bottom: 0.25rem; font-size: 0.95rem; cursor: pointer; color: #1f2937;}
         .dark .checkbox-label { color: #e2e8f0; }
         .checkbox-label input { margin-right: 0.5rem; width: 1.2rem; height: 1.2rem; }
@@ -213,23 +211,11 @@
                     </button>
                 </div>
 
-                <!-- Columna Derecha: Imágenes, Colpograma y Texto Final -->
+                <!-- Columna Derecha: Imagen Real y Texto Final -->
                 <div class="space-y-4">
-                    
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <!-- Foto Real -->
-                        <div class="flex flex-col items-center">
-                            <h3 class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-2">Imagen Real</h3>
-                            <img id="report-image" class="w-full h-40 object-cover rounded-xl shadow border border-gray-300 dark:border-gray-600">
-                        </div>
-                        
-                        <!-- Colpograma Digital -->
-                        <div class="flex flex-col items-center bg-white rounded-xl shadow border border-gray-300 p-2 relative">
-                            <h3 class="text-sm font-bold text-gray-800 mb-1">Colpograma Digital</h3>
-                            <p class="text-[10px] text-gray-500 mb-1 text-center">Dibuja con el dedo o ratón</p>
-                            <canvas id="colpogram-canvas" width="160" height="160" class="border border-gray-300 bg-white cursor-crosshair touch-none rounded"></canvas>
-                            <button id="clear-colpogram-btn" class="mt-2 text-xs font-semibold text-red-500 hover:text-red-700">Limpiar Esquema</button>
-                        </div>
+                    <div class="flex flex-col items-center">
+                        <h3 class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-2">Imagen Colposcópica</h3>
+                        <img id="report-image" class="w-full h-64 object-contain rounded-xl shadow border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900">
                     </div>
                     
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 border-b pb-1 mt-4 dark:border-gray-600">Texto Final del Informe (Editable)</h3>
@@ -302,60 +288,6 @@
             var closeCameraBtn = document.getElementById('close-camera-btn');
             var darkModeToggle = document.getElementById('dark-mode-toggle');
             var generateTextBtn = document.getElementById('generate-text-btn');
-
-            // Lógica del Colpograma
-            var canvasColpo = document.getElementById('colpogram-canvas');
-            var ctxColpo = canvasColpo.getContext('2d');
-            var drawingColpo = false;
-            var clearColpogramBtn = document.getElementById('clear-colpogram-btn');
-
-            function drawBaseColpogram() {
-                ctxColpo.fillStyle = '#ffffff';
-                ctxColpo.fillRect(0, 0, canvasColpo.width, canvasColpo.height);
-                ctxColpo.beginPath();
-                ctxColpo.arc(80, 80, 70, 0, 2 * Math.PI); 
-                ctxColpo.strokeStyle = '#333333';
-                ctxColpo.lineWidth = 1.5;
-                ctxColpo.stroke();
-                
-                ctxColpo.beginPath();
-                ctxColpo.moveTo(80, 10); ctxColpo.lineTo(80, 150);
-                ctxColpo.moveTo(10, 80); ctxColpo.lineTo(150, 80);
-                ctxColpo.stroke();
-                
-                ctxColpo.beginPath();
-                ctxColpo.ellipse(80, 80, 12, 4, 0, 0, 2 * Math.PI);
-                ctxColpo.stroke();
-            }
-
-            function loadColpogram(base64) {
-                if(base64) {
-                    var img = new Image();
-                    img.onload = function() {
-                        ctxColpo.clearRect(0,0, canvasColpo.width, canvasColpo.height);
-                        ctxColpo.drawImage(img, 0, 0);
-                    };
-                    img.src = "data:image/jpeg;base64," + base64;
-                } else { drawBaseColpogram(); }
-            }
-
-            function getColpoPos(e) {
-                var rect = canvasColpo.getBoundingClientRect();
-                var clientX = e.clientX || (e.touches && e.touches[0].clientX);
-                var clientY = e.clientY || (e.touches && e.touches[0].clientY);
-                return { x: clientX - rect.left, y: clientY - rect.top };
-            }
-
-            canvasColpo.addEventListener('mousedown', e => { drawingColpo = true; var pos = getColpoPos(e); ctxColpo.beginPath(); ctxColpo.moveTo(pos.x, pos.y); });
-            canvasColpo.addEventListener('mousemove', e => { if(drawingColpo) { var pos = getColpoPos(e); ctxColpo.lineTo(pos.x, pos.y); ctxColpo.strokeStyle='red'; ctxColpo.lineWidth=3; ctxColpo.stroke(); }});
-            canvasColpo.addEventListener('mouseup', () => drawingColpo = false);
-            canvasColpo.addEventListener('mouseout', () => drawingColpo = false);
-            
-            canvasColpo.addEventListener('touchstart', e => { drawingColpo = true; var pos = getColpoPos(e); ctxColpo.beginPath(); ctxColpo.moveTo(pos.x, pos.y); e.preventDefault();}, {passive: false});
-            canvasColpo.addEventListener('touchmove', e => { if(drawingColpo) { var pos = getColpoPos(e); ctxColpo.lineTo(pos.x, pos.y); ctxColpo.strokeStyle='red'; ctxColpo.lineWidth=3; ctxColpo.stroke(); e.preventDefault();} }, {passive: false});
-            canvasColpo.addEventListener('touchend', () => drawingColpo = false);
-
-            clearColpogramBtn.addEventListener('click', drawBaseColpogram);
 
             var stream;
             var patients = [];
@@ -488,8 +420,7 @@
                     imageBase64: currentImageBase64 || existing.imageBase64, 
                     logoBase64: currentLogoBase64 || existing.logoBase64,
                     signatureImageBase64: currentSignatureBase64 || existing.signatureImageBase64,
-                    reportText: existing.reportText || "",
-                    colpogramBase64: existing.colpogramBase64 || null
+                    reportText: existing.reportText || ""
                 };
                 var idx = patients.findIndex(p => p.id === id);
                 if (idx > -1) patients[idx] = newPatient; else patients.push(newPatient);
@@ -518,7 +449,6 @@
                     if (patient.reportText) {
                         reportEditor.innerText = patient.reportText;
                         document.getElementById('report-image').src = `data:image/jpeg;base64,${patient.imageBase64}`;
-                        loadColpogram(patient.colpogramBase64);
                         showScreen(screens.report);
                     } else { showScreen(screens.form); }
                 }
@@ -555,7 +485,6 @@
                 } else { reportEditor.innerText = patient.reportText; }
                 
                 document.getElementById('report-image').src = `data:image/jpeg;base64,${img}`;
-                loadColpogram(patient.colpogramBase64);
                 showScreen(screens.report);
             });
             
@@ -563,19 +492,17 @@
                 var patient = patients.find(p => p.id === currentPatientId);
                 if (patient) { 
                     patient.reportText = reportEditor.innerText; 
-                    patient.colpogramBase64 = canvasColpo.toDataURL('image/jpeg', 1.0).split(',')[1];
                     savePatients(); 
                 }
                 showScreen(screens.list);
             }); 
             
-            // Generador PDF - Arreglo del corte de imágenes
+            // Generador PDF - Con la foto centrada/alineada y sin el colpograma
             exportPdfBtn.addEventListener('click', () => {
                 var jsPDF = window.jspdf.jsPDF;
                 var patient = patients.find(p => p.id === currentPatientId);
                 
                 patient.reportText = reportEditor.innerText; 
-                patient.colpogramBase64 = canvasColpo.toDataURL('image/jpeg', 1.0).split(',')[1];
                 savePatients();
                 
                 var doc = new jsPDF();
@@ -611,24 +538,17 @@
                 var histLines = doc.splitTextToSize(`Historial: ${patient.medicalHistory || 'N/A'}`, (pageWidth/2) - margin);
                 doc.text(histLines, margin, currentY);
 
-                // CORRECCIÓN MATEMÁTICA DEL CORTE DE IMÁGENES
-                var photoColpoWidth = 55; 
-                var photoColpoHeight = photoColpoWidth * 0.75; 
-                var esquemaWidth = photoColpoHeight; 
-                
-                // Calculamos las posiciones ancladas al margen derecho (ancho total 210mm - margen 20mm = 190mm)
-                var esquemaX = pageWidth - margin - esquemaWidth; 
-                var photoX = esquemaX - 5 - photoColpoWidth; 
+                // FOTO REAL ÚNICA Y BIEN PROPORCIONADA A LA DERECHA
+                var photoWidth = 65; 
+                var photoHeight = photoWidth * 0.75; 
+                var photoX = pageWidth - margin - photoWidth; 
                 var photosY = dataStartY; 
                 
                 if (patient.imageBase64) {
-                    doc.addImage(`data:image/jpeg;base64,${patient.imageBase64}`, 'JPEG', photoX, photosY, photoColpoWidth, photoColpoHeight);
-                }
-                if (patient.colpogramBase64) {
-                    doc.addImage(`data:image/jpeg;base64,${patient.colpogramBase64}`, 'JPEG', esquemaX, photosY, esquemaWidth, esquemaWidth);
+                    doc.addImage(`data:image/jpeg;base64,${patient.imageBase64}`, 'JPEG', photoX, photosY, photoWidth, photoHeight);
                 }
                 
-                currentY = Math.max(currentY + (histLines.length * 6), photosY + photoColpoHeight) + 15;
+                currentY = Math.max(currentY + (histLines.length * 6), photosY + photoHeight) + 15;
                 
                 doc.setFont('Helvetica'); doc.setFontSize(12); doc.setTextColor(20, 20, 20);
                 var reportLines = doc.splitTextToSize(patient.reportText, pageWidth - 2 * margin);
